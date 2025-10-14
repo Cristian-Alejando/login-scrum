@@ -1,14 +1,13 @@
-const sqlite3 = require('sqlite3').verbose();
-const path = require('path');
+require('dotenv').config();
+const mysql = require('mysql2/promise');
 
-const db = new sqlite3.Database(path.join(__dirname, '../database/users.db'));
-
-db.serialize(() => {
-  db.run(`CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    username TEXT UNIQUE,
-    password TEXT
-  )`);
+const pool = mysql.createPool({
+  host: process.env.DB_HOST || '127.0.0.1',
+  user: process.env.DB_USER || 'admin',
+  password: process.env.DB_PASSWORD || '12345',
+  database: process.env.DB_NAME || 'login_scrum',
+  port: process.env.DB_PORT || 3306,
+  connectionLimit: 10
 });
 
-module.exports = db;
+module.exports = { pool };
