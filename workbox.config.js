@@ -1,10 +1,23 @@
 // workbox.config.js
 module.exports = {
-  globDirectory: "./",
+  // Precache files from the frontend folder so URLs are like /assets/...
+  globDirectory: "./frontend",
   globPatterns: [
     "**/*.{html,js,css,svg,png,jpg,jpeg,ico,json}"
   ],
+  // Write the generated SW to the project root so it can be served at /sw.js
   swDest: "sw.js",
+  // If a navigation request occurs while offline, serve the app shell
+  navigateFallback: '/home.html',
+  // Exclude dev artifacts (paths relative to the frontend folder are fine)
+  globIgnores: [
+    "../backend/**",
+    "../database/**",
+    "../node_modules/**",
+    "../workbox-*.js",
+    "../workbox-*.js.map",
+    "../server.js"
+  ],
   ignoreURLParametersMatching: [/^utm_/, /^fbclid$/],
   runtimeCaching: [
     {

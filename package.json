@@ -2,9 +2,11 @@
   "name": "login-scrum",
   "version": "1.0.0",
   "description": "Login local + AppShell offline + evaluaciones cognitivas",
-  "main": "backend/server.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node backend/server.js",
+    "start": "node server.js",
+    "init-db": "node scripts/init_db.js",
+    "test": "jest --runInBand",
     "build-sw": "workbox generateSW workbox.config.js"
   },
   "dependencies": {
@@ -16,7 +18,9 @@
     "mysql2": "^3.15.2"
   },
   "devDependencies": {
-    "workbox-cli": "^7.1.0"
+    "workbox-cli": "^7.1.0",
+    "jest": "^29.6.1",
+    "supertest": "^6.4.3"
   },
   "repository": {
     "type": "git",

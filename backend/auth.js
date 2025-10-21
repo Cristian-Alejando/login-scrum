@@ -14,23 +14,8 @@ router.post('/register', async (req, res) => {
   });
 });
 
-// Login
-router.post('/login', (req, res) => {
-  const { username, password } = req.body;
+// Legacy auth shim
+// Este archivo existía como versión SQLite. Para evitar confusión, re-exportamos
+// el router MySQL que vive en backend/routes/users.js
 
-  db.get('SELECT * FROM users WHERE username = ?', [username], async (err, user) => {
-    if (!user) return res.status(400).json({ error: 'Usuario no encontrado' });
-
-    const match = await bcrypt.compare(password, user.password);
-    if (!match) return res.status(400).json({ error: 'Contraseña incorrecta' });
-
-    // ➜ Generar token JWT (24 h)
-    const jwt = require('jsonwebtoken');
-    const SECRET = 'mi-secreto-super-seguro';
-    const token = jwt.sign({ username: user.username }, SECRET, { expiresIn: '24h' });
-
-    res.json({ message: 'Login exitoso', token, username: user.username });
-  });
-});
-
-module.exports = router;
+module.exports = require('./routes/users');

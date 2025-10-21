@@ -11,6 +11,7 @@ form.addEventListener('submit', async (e) => {
     const res = await fetch('/api/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include', // accept cookies from server
       body: JSON.stringify({ username, password })
     });
 
@@ -18,8 +19,7 @@ form.addEventListener('submit', async (e) => {
     msg.textContent = data.message || data.error;
 
     if(res.ok) {
-      // Guardar token en localStorage
-      localStorage.setItem('token', data.token);
+      // Guardar username para UI; token is set as HttpOnly cookie by server
       localStorage.setItem('username', data.username);
       // Redirigir a dashboard
       window.location.href = 'dashboard.html';
