@@ -37,11 +37,7 @@ node backend/server.js
 
 http://localhost:3000/login.html
 
-Endpoints principales
 
-Notas de seguridad y mejoras recomendadas
-
-Si quieres que aplique más cambios (migrar a SQLite, proteger `dashboard.html` desde el servidor, o añadir tests), dime y lo hago.
 
 # Login SCRUM (MySQL)
 
