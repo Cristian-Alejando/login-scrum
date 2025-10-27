@@ -1,111 +1,112 @@
-# Login SCRUM (actualizado)
-
-Proyecto sencillo de autenticación con Node.js/Express y frontend vanilla.
-
-Principales cambios y notas:
-
-Requisitos
-
-Instalación y ejecución (MySQL)
-
-1. Instalar dependencias:
-
-```powershell
-npm install
-```
-
-2. Copiar `.env.example` a `.env` y completar valores:
-
-```powershell
-copy .env.example .env
-# Edita .env con tu editor y coloca la contraseña de DB y JWT_SECRET
-```
-
-3. Crear la base de datos y la tabla (usar MySQL client):
-
-```sql
-SOURCE scripts/init_db.sql;
-```
-
-4. Levantar servidor:
-
-```powershell
-node backend/server.js
-```
-
-5. Abrir en el navegador:
-
-http://localhost:3000/login.html
-
-
-
 # Login SCRUM (MySQL)
 
-Proyecto sencillo de autenticación con Node.js/Express y frontend vanilla. Este repo ahora está unificado para usar MySQL (no SQLite).
+> Proyecto sencillo de autenticación con Node.js/Express y frontend vanilla, utilizando MySQL como base de datos.
 
-Principales cambios y notas:
-- Uso de MySQL a través de `mysql2` en `backend/database.js`.
-- El secreto JWT se lee desde `process.env.JWT_SECRET` (ver `.env.example`).
-- Se añadió middleware de autenticación y una ruta protegida: `GET /api/users/me`.
-- Al hacer login, el servidor establece una cookie HttpOnly `token` para mayor seguridad. El frontend también guarda `username` en `localStorage`.
+Este repositorio implementa un sistema de login básico que incluye registro, inicio de sesión y protección de rutas. El servidor utiliza cookies `HttpOnly` para almacenar el token JWT de forma segura.
 
-Requisitos
-- Node.js 14+ y NPM
-- MySQL / MariaDB accesible desde la máquina de desarrollo
+## 📖 Tabla de Contenidos
 
-Instalación y ejecución (MySQL)
+* [Acerca del Proyecto](#acerca-del-proyecto)
+* [🛠️ Stack Tecnológico](#️-stack-tecnológico)
+* [🏁 Empezando](#-empezando)
+    * [Pre-requisitos](#pre-requisitos)
+    * [Instalación](#instalación)
+* [📄 Endpoints de la API](#-endpoints-de-la-api)
+* [Notas de Seguridad](#notas-de-seguridad)
+* [Migración de SQLite](#migración-de-sqlite)
 
-1. Instalar dependencias:
+## Acerca del Proyecto
 
-```powershell
-npm install
-```
+Este proyecto sirve como un ejemplo fundamental de autenticación web.
 
-2. Copiar `.env.example` a `.env` y completar valores (DB_* y JWT_SECRET):
+* Utiliza **MySQL** (con `mysql2`) para la persistencia de datos.
+* El secreto de **JWT** se gestiona de forma segura a través de variables de entorno (`.env`).
+* Incluye un middleware de autenticación para proteger rutas (ej. `GET /api/users/me`).
+* Al hacer login, el servidor establece una cookie `HttpOnly` (`token`) para mayor seguridad, mientras que el frontend guarda el `username` en `localStorage` para la UI.
 
-```powershell
-copy .env.example .env
-# Edita .env con tu editor y coloca la contraseña de DB y JWT_SECRET
-```
+## 🛠️ Stack Tecnológico
 
-3. Inicializar la base de datos (opciones):
+* **Backend:** Node.js, Express.js
+* **Base de Datos:** MySQL (con `mysql2`)
+* **Autenticación:** JSON Web Tokens (JWT)
+* **Frontend:** HTML, CSS y JavaScript (Vanilla)
 
-- Usar cliente MySQL manualmente:
+## 🏁 Empezando
 
-```sql
--- desde MySQL
-SOURCE scripts/init_db.sql;
-```
+Sigue estos pasos para levantar el proyecto en tu máquina local.
 
-- O usar el helper (requiere `mysql` CLI instalado):
+### Pre-requisitos
 
-```powershell
-npm run init-db
-```
+* [Node.js](https://nodejs.org/) (v14 o superior)
+* [NPM](https://www.npmjs.com/)
+* Un servidor [MySQL](https://www.mysql.com/downloads/) o [MariaDB](https://mariadb.org/download/) accesible.
 
-4. Levantar servidor:
+### Instalación
 
-```powershell
-npm start
-```
+1.  **Clona el repositorio:**
+    ```sh
+    git clone [https://github.com/TU_USUARIO/TU_REPO.git](https://github.com/TU_USUARIO/TU_REPO.git)
+    cd TU_REPO
+    ```
 
-5. Abrir en el navegador:
+2.  **Instala las dependencias:**
+    ```sh
+    npm install
+    ```
 
-http://localhost:3000/login.html
+3.  **Crea y configura las variables de entorno:**
+    * Copia el archivo de ejemplo:
+        ```sh
+        copy .env.example .env
+        ```
+    * Edita el archivo `.env` con tu editor de código y completa los valores `DB_*` (host, usuario, contraseña, nombre de la BD) y tu `JWT_SECRET`.
 
-Endpoints principales
-- POST /api/users/register  -> { username, password }
-- POST /api/users/login     -> { username, password }  -> devuelve token JWT y cookie HttpOnly
-- GET  /api/users/me        -> protegido, devuelve info del usuario
+4.  **Inicializa la base de datos:**
+    * Elige **una** de las siguientes opciones:
 
-Eliminar archivo SQLite (local)
-- Si tu migración a MySQL ya está hecha, elimina el archivo legacy `database/users.db` localmente para evitar confusión. En PowerShell ejecuta (desde la carpeta del repo):
+    * **Opción A (Recomendada):** Usar el script de NPM (requiere tener `mysql` CLI en el PATH de tu sistema):
+        ```sh
+        npm run init-db
+        ```
+    * **Opción B (Manual):** Ejecutar el script SQL directamente en tu cliente de MySQL:
+        ```sql
+        -- Desde tu cliente MySQL
+        SOURCE scripts/init_db.sql;
+        ```
 
-```powershell
-Remove-Item .\database\users.db
-```
+5.  **Levanta el servidor:**
+    ```sh
+    npm start
+    ```
 
-Notas de seguridad y pasos siguientes
-- No subas `.env` al repositorio. `.gitignore` ya ignora `.env`.
-- El token se envía al navegador como cookie HttpOnly; eso evita que JS malicioso lo lea. El servidor protege `dashboard.html` comprobando la cookie o un header Authorization.
-- Recomendaciones: forzar HTTPS en producción, limitar intentos de login y agregar validación adicional.
+6.  **Abre la aplicación en tu navegador:**
+    * [http://localhost:3000/login.html](http://localhost:3000/login.html)
+
+## 📄 Endpoints de la API
+
+* `POST /api/users/register`
+    * Body: `{ "username": "...", "password": "..." }`
+    * Registra un nuevo usuario.
+
+* `POST /api/users/login`
+    * Body: `{ "username": "...", "password": "..." }`
+    * Autentica al usuario y devuelve un token JWT en una cookie `HttpOnly`.
+
+* `GET /api/users/me`
+    * Ruta protegida. Requiere la cookie de autenticación.
+    * Devuelve la información del usuario (`{ username }`).
+
+## Notas de Seguridad
+
+* **No subas tu archivo `.env` al repositorio.** El archivo `.gitignore` ya está configurado para ignorarlo.
+* El token se envía al navegador como una **cookie `HttpOnly`**. Esto previene que scripts maliciosos (XSS) en el frontend puedan leer el token.
+* **Recomendaciones para producción:** Forzar HTTPS, implementar limitación de intentos de login (rate limiting) y añadir validación más robusta a las entradas del usuario.
+
+## Migración de SQLite
+
+Si esta es una versión actualizada del proyecto y anteriormente usabas SQLite, puedes eliminar el archivo de base de datos legacy para evitar confusiones.
+
+* Desde PowerShell (en la raíz del repo):
+    ```powershell
+    Remove-Item .\database\users.db
+    ```
