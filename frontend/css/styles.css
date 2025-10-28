@@ -1,75 +1,144 @@
+/* 1. Definición de variables (Modo Claro por defecto) */
 :root {
-  --bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  --card: #ffffff;
-  --accent: #764ba2;
+  --primary: #003366;    /* azul institucional */
+  --secondary: #005A9C;  /* azul claro */
+  --accent: #FF6F00;     /* naranja universidad */
+  --bg: #F5F7FA;         /* fondo claro */
+  --card: #FFFFFF;
+  --text: #212529;
+  --text-light: #FFFFFF;
+  --border-light: #DDD;
+  --shadow: rgba(0, 0, 0, 0.08);
   --radius: 12px;
-  --shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  --transition: 0.2s ease-in-out;
+}
+
+/* 2. Variables para Modo Oscuro (Opcional) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0D1117;
+    --card: #161B22;
+    --text: #E6EDF3;
+    --border-light: #30363d;
+    --shadow: rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* 3. Estilos Globales y Body */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: var(--bg);
+  color: var(--text);
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 1rem; /* Espacio para móviles */
 }
 
+/* 4. Estilo de la Tarjeta (Card) */
 .card {
   background: var(--card);
   padding: 2.5rem;
   border-radius: var(--radius);
-  box-shadow: var(--shadow);
-  width: 320px;
+  box-shadow: 0 4px 12px var(--shadow);
+  border: 1px solid var(--shadow); /* Borde sutil */
+  width: 100%;
+  max-width: 400px;
   text-align: center;
 }
 
 h2 {
   margin-top: 0;
-  color: var(--accent);
+  margin-bottom: 1.5rem;
+  color: var(--primary); /* Color primario */
+  font-weight: 600;
 }
 
-input {
+/* 5. Estilos de Formularios (Inputs) */
+input[type="text"],
+input[type="password"] {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.75rem 1rem;
   margin: 0.5rem 0;
-  border: 1px solid #ddd;
+  border: 1px solid var(--border-light);
   border-radius: 8px;
   font-size: 1rem;
+  background: var(--bg); /* Fondo sutil */
+  color: var(--text);
+  transition: border-color var(--transition), box-shadow var(--transition);
 }
 
-button {
+/* 6. Microinteracción: Focus en Inputs */
+input[type="text"]:focus,
+input[type="password"]:focus {
+  outline: none;
+  border-color: var(--primary);
+  /* "borde de 2px" (usamos box-shadow para no mover el layout) */
+  box-shadow: 0 0 0 2px var(--primary);
+}
+
+/* 7. Estilos de Formularios (Button) */
+button[type="submit"] {
   width: 100%;
   padding: 0.75rem;
   margin-top: 1rem;
   border: none;
   border-radius: 8px;
-  background: var(--accent);
-  color: #fff;
+  background: var(--primary);
+  color: var(--text-light);
   font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background var(--transition), transform var(--transition);
 }
 
-button:hover {
-  background: #5a3a8a;
+/* 8. Microinteracción: Hover en Button */
+button[type="submit"]:hover {
+  background: var(--secondary); /* Azul más claro al pasar el mouse */
+  transform: scale(1.02);
 }
 
+/* 9. Microinteracción: Focus en Button */
+button[type="submit"]:focus {
+  outline: none;
+  /* Anillo de foco visible y accesible */
+  box-shadow: 0 0 0 2px var(--card), 0 0 0 4px var(--primary);
+}
+
+/* 10. Enlaces y Mensajes */
 a {
   display: inline-block;
-  margin-top: 1rem;
-  color: var(--accent);
+  margin-top: 1.5rem;
+  color: var(--accent); /* Naranja de acento */
   text-decoration: none;
   font-size: 0.9rem;
+  font-weight: 500;
+  transition: opacity var(--transition);
 }
 
 a:hover {
   text-decoration: underline;
+  opacity: 0.8;
 }
 
 #msg {
   margin-top: 1rem;
   font-weight: 600;
-  color: #e74c3c;
+  font-size: 0.9rem;
+  color: #e74c3c; /* Rojo para errores */
+}
+
+/* Ajuste de color de error para modo oscuro */
+@media (prefers-color-scheme: dark) {
+  #msg {
+    color: #ff8a80; /* Rojo más claro */
+  }
 }
