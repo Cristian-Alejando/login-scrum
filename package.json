@@ -1,0 +1,36 @@
+{
+  "name": "login-scrum",
+  "version": "1.0.0",
+  "description": "Login local + AppShell offline + evaluaciones cognitivas",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "init-db": "node scripts/init_db.js",
+    "test": "jest --runInBand",
+    "build-sw": "workbox generateSW workbox.config.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.3",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "mysql2": "^3.15.2"
+  },
+  "devDependencies": {
+    "workbox-cli": "^7.1.0",
+    "jest": "^29.6.1",
+    "supertest": "^6.3.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Cristian-Alejando/login-scrum.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Cristian-Alejando/login-scrum/issues"
+  },
+  "homepage": "https://github.com/Cristian-Alejando/login-scrum#readme"
+}

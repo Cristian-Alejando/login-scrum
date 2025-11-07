@@ -1,0 +1,8 @@
+/* css/test-page.css */
+body { background: #0D1117; color: #E6EDF3; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
+.test-container { width: 90%; max-width: 800px; text-align: center; }
+.stimulus-area { min-height: 300px; border: 2px solid #005A9C; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; font-size: 3rem; }
+.options-area { display: flex; gap: 1rem; justify-content: center; }
+.btn-option { background: #FF6F00; color: #fff; border: none; padding: 1rem 2rem; border-radius: 12px; font-size: 1.2rem; cursor: pointer; }
+.btn-option:hover { background: #e06300; }
+.results-screen { display: none; } /* Oculto por defecto */

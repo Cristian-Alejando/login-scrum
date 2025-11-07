@@ -1,0 +1,169 @@
+/* css/home.css (Rediseño Universitario) */
+
+/* 1. Definición de variables (Modo Claro por defecto) */
+:root {
+  --primary: #003366;    /* azul institucional */
+  --secondary: #005A9C;  /* azul claro */
+  --accent: #FF6F00;     /* naranja universidad */
+  --bg: #FFFFFF;         /* fondo claro */
+  --bg-alt: #F5F7FA;     /* fondo alterno */
+  --text: #212529;
+  --text-light: #FFFFFF;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --radius: 12px;
+  --transition: 0.2s ease-in-out;
+}
+
+/* 2. Variables para Modo Oscuro (Opcional) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0D1117;
+    --bg-alt: #161B22;
+    --text: #E6EDF3;
+    --shadow: rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* 3. Estilos Globales y Body */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  line-height: 1.6;
+}
+
+/* 4. Estilo del Header (Hero Section) */
+.header {
+  background: var(--primary); /* Fondo azul institucional */
+  color: var(--text-light);
+  padding: 4rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.logo {
+  width: 120px;
+  margin-bottom: 1.5rem;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  margin-bottom: 2rem;
+  max-width: 600px;
+  opacity: 0.9;
+}
+
+/* 5. Botón Principal (Call to Action) */
+.btn-primary {
+  background: var(--accent); /* Naranja de acento */
+  color: var(--text-light);
+  padding: 0.75rem 2rem;
+  border-radius: var(--radius);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: transform var(--transition), background var(--transition);
+}
+
+.btn-primary:hover {
+  transform: scale(1.05); /* Microinteracción de hover */
+  background: #e06300; /* Naranja más oscuro */
+}
+
+.btn-primary:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--accent);
+}
+
+/* 6. Sección de Características (Features) */
+.features {
+  padding: 4rem 2rem;
+  background: var(--bg-alt); /* Fondo alterno */
+  width: 100%;
+}
+
+.features h2 {
+  text-align: center;
+  font-size: 2rem;
+  margin-bottom: 2.5rem;
+  color: var(--primary);
+}
+
+/* Contenedor de las características (layout) */
+.features ul {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap; /* Para responsive */
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Estilo de cada tarjeta de característica */
+.features li {
+  background: var(--bg);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 10px var(--shadow);
+  border: 1px solid var(--shadow);
+  padding: 2rem;
+  flex-basis: 300px; /* Ancho base de cada tarjeta */
+  flex-grow: 1;
+  text-align: center;
+  font-size: 1.1rem;
+  font-weight: 500;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.features li:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 15px var(--shadow);
+}
+
+/* 7. Footer (Pie de Página) */
+.footer {
+  margin-top: auto; /* Empuja el footer al final */
+  padding: 2rem;
+  background: var(--primary);
+  color: var(--text-light);
+  text-align: center;
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+/* 8. Responsive Design */
+@media (max-width: 768px) {
+  .header {
+    padding: 3rem 1rem;
+  }
+  .header h1 {
+    font-size: 2rem;
+  }
+  .subtitle {
+    font-size: 1rem;
+  }
+  .features {
+    padding: 3rem 1rem;
+  }
+  .features h2 {
+    font-size: 1.8rem;
+  }
+  /* Las 'li' ya se apilarán gracias a flex-wrap */
+}

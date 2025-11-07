@@ -1,0 +1,225 @@
+/* 1. Definición de variables (Modo Claro por defecto) */
+:root {
+  --primary: #003366;    /* azul institucional */
+  --secondary: #005A9C;  /* azul claro */
+  --accent: #FF6F00;     /* naranja universidad */
+  --bg: #F5F7FA;         /* fondo claro */
+  --card-bg: #FFFFFF;
+  --text: #212529;
+  --text-light: #FFFFFF;
+  --border-light: #DDD;
+  --shadow: rgba(0, 0, 0, 0.08);
+  --radius: 12px;
+  --transition: 0.2s ease-in-out;
+}
+
+/* 2. Variables para Modo Oscuro (Opcional) */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0D1117;
+    --card-bg: #161B22;
+    --text: #E6EDF3;
+    --border-light: #30363d;
+    --shadow: rgba(255, 255, 255, 0.08);
+  }
+}
+
+/* 3. Estilos Globales y Body */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* 4. Encabezado del Dashboard */
+.header-dash {
+  background: var(--primary);
+  color: var(--text-light);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 2px 8px var(--shadow); /* Sombra para el header */
+}
+
+.user-icon {
+  width: 40px;
+  height: 40px; /* Asegurar que sea cuadrado para consistencia */
+  margin-right: 1rem;
+}
+
+.header-dash h1 {
+  font-size: 1.5rem;
+  font-weight: 500;
+  flex-grow: 1; /* Para que el texto ocupe espacio y el botón se alinee */
+}
+
+.header-dash h1 #userName {
+  font-weight: 700;
+  color: var(--accent); /* Naranja de acento para el nombre de usuario */
+}
+
+/* 5. Botón de Cerrar Sesión */
+.btn-logout {
+  background: var(--card-bg); /* Fondo de tarjeta para contraste */
+  color: var(--primary);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background var(--transition), color var(--transition), transform var(--transition);
+}
+
+.btn-logout:hover {
+  background: var(--text); /* Un color de texto oscuro */
+  color: var(--text-light);
+  transform: scale(1.02);
+}
+
+.btn-logout:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--card-bg), 0 0 0 4px var(--accent);
+}
+
+/* 6. Contenido Principal del Dashboard */
+.main-dash {
+  flex-grow: 1; /* Para que ocupe el espacio restante y el footer vaya abajo */
+  padding: 2rem;
+  max-width: 1200px; /* Ancho máximo para desktop */
+  margin: 0 auto; /* Centrar el contenido */
+  width: 100%;
+}
+
+.main-dash h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: var(--primary);
+  border-bottom: 2px solid var(--border-light); /* Separador sutil */
+  padding-bottom: 0.5rem;
+}
+
+/* 7. Contenedor de Tarjetas de Prueba */
+.test-cards {
+  display: grid; /* Usar grid para un layout más robusto */
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); /* Responsive */
+  gap: 2rem; /* Espacio entre tarjetas */
+  margin-top: 1rem;
+}
+
+/* 8. Estilo de cada Tarjeta de Prueba */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--radius);
+  box-shadow: 0 4px 10px var(--shadow);
+  border: 1px solid var(--border-light);
+  padding: 1.5rem;
+  text-align: center;
+  display: flex; /* Flexbox para centrar contenido verticalmente */
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 15px var(--shadow); /* Sombra más pronunciada al hover */
+}
+
+.card img {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1rem;
+  margin-left: auto;
+  margin-right: auto;
+  object-fit: contain; /* Asegura que la imagen se ajuste sin distorsión */
+}
+
+.card h3 {
+  font-size: 1.3rem;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.card p {
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 1rem;
+  line-height: 1.5;
+  flex-grow: 1; /* Para que el párrafo ocupe espacio y el botón vaya abajo */
+}
+
+/* 9. Botón de Iniciar Prueba */
+.btn-test {
+  background: var(--accent); /* Naranja de acento para el botón de acción */
+  color: var(--text-light);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: var(--radius);
+  cursor: pointer;
+  margin-top: 1rem;
+  font-weight: 600;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.btn-test:hover {
+  background: #e06300; /* Un naranja un poco más oscuro */
+  transform: scale(1.02);
+}
+
+.btn-test:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px var(--card-bg), 0 0 0 4px var(--accent);
+}
+
+/* 10. Footer del Dashboard (Añadir si existe en HTML) */
+.footer-dash { /* Si añades un footer en dashboard.html */
+  background: var(--primary);
+  color: var(--text-light);
+  text-align: center;
+  padding: 1rem;
+  margin-top: 2rem;
+  font-size: 0.9rem;
+}
+
+/* 11. Responsive */
+@media (max-width: 768px) {
+  .header-dash {
+    flex-direction: column;
+    text-align: center;
+    padding: 1rem;
+  }
+  .header-dash h1 {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+    font-size: 1.3rem;
+  }
+  .user-icon {
+    margin-right: 0;
+  }
+  .main-dash {
+    padding: 1rem;
+  }
+  .test-cards {
+    grid-template-columns: 1fr; /* Una columna en móviles */
+    gap: 1.5rem;
+  }
+  .card {
+    padding: 1rem;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .test-cards {
+    grid-template-columns: repeat(2, 1fr); /* Dos columnas en tablets */
+  }
+}

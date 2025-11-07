@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-M" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CogniKids - Test de Stroop</title>
+  <link rel="stylesheet" href="css/test-page.css" />
+  <link rel="manifest" href="/manifest.json" />
+</head>
+<body>
+  <div class="test-container">
+    <div class="game-screen">
+      <h1>Test de Stroop</h1>
+      <div class="stimulus-area" id="stimulus">
+        <p>Presiona "Iniciar" para comenzar</p>
+      </div>
+      <div class="options-area" id="options">
+        <button class="btn-option" id="btnStart">Iniciar</button>
+      </div>
+    </div>
+
+    <div class="results-screen" id="results">
+      <h2>¡Prueba completada!</h2>
+      <p>Tu puntaje: <span id="score">--</span></p>
+      <p>Tiempo total: <span id="time">--</span>s</p>
+      <a href="dashboard.html" class="btn-option">Volver al Dashboard</a>
+    </div>
+  </div>
+  <script src="js/memory.js"></script>
+  <script src="js/sw-register.js"></script>
+</body>
+</html>

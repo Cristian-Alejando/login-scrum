@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>CogniKids - Dashboard</title>
+  <link rel="stylesheet" href="css/dashboard.css?v=2.0" />
+  <link rel="icon" href="../assets/dashboard/user-icon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#764ba2" />
+</head>
+<body>
+  <header class="header-dash">
+    <img src="../assets/dashboard/user-icon.svg" alt="Usuario" class="user-icon" />
+    <h1>Bienvenido, <span id="userName">---</span></h1>
+    <button id="logoutBtn" class="btn-logout">Cerrar sesión</button>
+  </header>
+
+  <main class="main-dash">
+      <h2>Pruebas disponibles</h2>
+
+      <div class="test-cards">
+
+        <div class="card">
+          <img src="../assets/dashboard/icon-stroop.svg" alt="Test de Stroop Icono" />
+          <h3>Test de Stroop</h3>
+          <p>Evalúa la atención y flexibilidad cognitiva.</p>
+          <button class="btn-test" data-test="stroop">Iniciar prueba</button>
+        </div>
+
+        <div class="card">
+          <img src="../assets/dashboard/icon-memory.svg" alt="Test de Memoria Icono" />
+          <h3>Test de Memoria</h3>
+          <p>Evalúa la memoria de trabajo y a corto plazo.</p>
+          <button class="btn-test" data-test="memory">Iniciar prueba</button>
+        </div>
+
+        <div class="card">
+          <img src="../assets/dashboard/icon-perception.svg" alt="Test de Percepción Icono" />
+          <h3>Test de Percepción</h3>
+          <p>Mide la capacidad de percepción visual y espacial.</p>
+          <button class="btn-test" data-test="perception">Iniciar prueba</button>
+        </div>
+
+      </div>
+    </main>
+
+  <script src="js/dashboard.js"></script>
+  <script src="js/sw-register.js"></script>
+</body>
+</html>
