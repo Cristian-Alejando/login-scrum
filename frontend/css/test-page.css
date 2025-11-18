@@ -1,8 +1,80 @@
-/* css/test-page.css */
-body { background: #0D1117; color: #E6EDF3; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 100vh; }
-.test-container { width: 90%; max-width: 800px; text-align: center; }
-.stimulus-area { min-height: 300px; border: 2px solid #005A9C; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 2rem; font-size: 3rem; }
-.options-area { display: flex; gap: 1rem; justify-content: center; }
-.btn-option { background: #FF6F00; color: #fff; border: none; padding: 1rem 2rem; border-radius: 12px; font-size: 1.2rem; cursor: pointer; }
-.btn-option:hover { background: #e06300; }
-.results-screen { display: none; } /* Oculto por defecto */
+/* frontend/css/test-page.css */
+
+body {
+  background-color: #1a1d20; /* Fondo oscuro para concentración */
+  color: #fff;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Navbar minimalista para la prueba */
+.navbar {
+  background-color: rgba(0, 51, 102, 0.8) !important;
+  backdrop-filter: blur(10px);
+}
+
+/* Contenedor del juego */
+.game-container {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Área del estímulo (Tarjeta blanca central) */
+.stimulus-card {
+  background: #fff;
+  color: #333;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 600px;
+  min-height: 300px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 30px rgba(0,0,0,0.5);
+  margin-bottom: 2rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.stimulus-content {
+  font-size: 4rem; /* Texto muy grande */
+  font-weight: bold;
+}
+
+/* Área de botones de respuesta */
+.options-area {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  width: 100%;
+  max-width: 600px;
+}
+
+.btn-option {
+  padding: 1.5rem;
+  font-size: 1.5rem;
+  border-radius: 15px;
+  transition: transform 0.1s;
+  font-weight: bold;
+}
+
+.btn-option:active {
+  transform: scale(0.95);
+}
+
+/* Barra de progreso */
+.progress {
+  height: 10px;
+  background-color: #333;
+  border-radius: 5px;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+}

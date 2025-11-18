@@ -1,27 +1,21 @@
-// js/memory.js
+// js/memory.js (DISEÑO PRO)
 
-// Referencias a elementos (Igual que stroop.js)
 const stimulusEl = document.getElementById('stimulus');
 const optionsEl = document.getElementById('options');
 const startBtn = document.getElementById('btnStart');
-const gameScreen = document.querySelector('.game-screen');
-const resultsScreen = document.getElementById('results');
-const scoreEl = document.getElementById('score');
-const timeEl = document.getElementById('time');
+const progressBar = document.getElementById('progressBar');
 
+const words = [
+  { item: 'LEÓN', distractor: 'TIGRE' },
+  { item: 'SOL', distractor: 'LUNA' },
+  { item: 'MESA', distractor: 'SILLA' },
+  { item: 'AGUA', distractor: 'FUEGO' },
+  { item: 'ROJO', distractor: 'AZUL' },
+];
+const MAX_ROUNDS = words.length;
 let score = 0;
 let round = 0;
-const MAX_ROUNDS = 5;
 let startTime;
-
-// Palabras de prueba
-const words = [
-  { item: 'Manzana', distractor: 'Pera' },
-  { item: 'Círculo', distractor: 'Cuadrado' },
-  { item: 'Rojo', distractor: 'Azul' },
-  { item: 'Gato', distractor: 'Perro' },
-  { item: 'Casa', distractor: 'Auto' },
-];
 
 startBtn.addEventListener('click', startTest);
 
@@ -29,75 +23,66 @@ function startTest() {
   score = 0;
   round = 0;
   startTime = Date.now();
-  startBtn.style.display = 'none';
-  optionsEl.innerHTML = ''; // Limpiar botones iniciales
+  optionsEl.innerHTML = '';
   nextRound();
 }
 
 function nextRound() {
+  const progressPercent = (round / MAX_ROUNDS) * 100;
+  progressBar.style.width = `${progressPercent}%`;
+
   if (round >= MAX_ROUNDS) {
     endTest();
     return;
   }
 
-  const currentWord = words[round];
+  const current = words[round];
   
-  // --- LÓGICA DEL TEST DE MEMORIA ---
-  // 1. Mostrar estímulo (la palabra a memorizar)
-  stimulusEl.innerHTML = `<p style="font-size: 1.5rem;">Memoriza:</p><h2 style="font-size: 3rem;">${currentWord.item}</h2>`;
-  optionsEl.innerHTML = ''; // Sin opciones todavía
+  // Fase 1: Memorizar
+  stimulusEl.innerHTML = `
+    <p class="text-muted fs-5 mb-2">Memoriza esta palabra:</p>
+    <h1 class="display-1 fw-bold text-primary">${current.item}</h1>
+  `;
+  optionsEl.innerHTML = ''; // Ocultar botones
 
-  // 2. Esperar 1.5 segundos y luego mostrar opciones
+  // Fase 2: Responder (después de 1.5s)
   setTimeout(() => {
-    stimulusEl.innerHTML = `<p style="font-size: 1.5rem;">¿Cuál palabra viste?</p>`;
+    stimulusEl.innerHTML = `<p class="text-muted fs-4">¿Cuál viste?</p>`;
     
-    // Mezclar opciones
-    const options = [currentWord.item, currentWord.distractor].sort(() => Math.random() - 0.5);
-
+    const opts = [current.item, current.distractor].sort(() => Math.random() - 0.5);
+    
     optionsEl.innerHTML = `
-      <button class="btn-option" data-item="${options[0]}">${options[0]}</button>
-      <button class="btn-option" data-item="${options[1]}">${options[1]}</button>
+      <button class="btn btn-light btn-option shadow border" data-item="${opts[0]}">${opts[0]}</button>
+      <button class="btn btn-light btn-option shadow border" data-item="${opts[1]}">${opts[1]}</button>
     `;
 
     optionsEl.querySelectorAll('.btn-option').forEach(btn => {
       btn.onclick = () => {
-        if (btn.dataset.item === currentWord.item) { // Respuesta correcta
-          score++;
-        }
-        round++; // Avanzar de ronda
+        if (btn.dataset.item === current.item) score++;
+        round++;
         nextRound();
       };
     });
-  }, 1500); // 1.5 segundos para memorizar
+  }, 1500);
 }
 
 async function endTest() {
-  const endTime = Date.now();
-  const totalTimeMs = endTime - startTime;
-  const totalTimeSec = (totalTimeMs / 1000).toFixed(2);
+  progressBar.style.width = `100%`;
+  const totalTimeMs = Date.now() - startTime;
 
-  // Mostrar resultados en la UI (Igual que stroop.js)
-  gameScreen.style.display = 'none';
-  resultsScreen.style.display = 'block';
-  scoreEl.textContent = `${score} / ${MAX_ROUNDS}`;
-  timeEl.textContent = totalTimeSec;
+  Swal.fire({
+    title: '¡Excelente!',
+    text: `Recordaste ${score} de ${MAX_ROUNDS} palabras.`,
+    icon: 'success',
+    confirmButtonText: 'Finalizar'
+  }).then(() => window.location.href = 'dashboard.html');
 
-  // Enviar resultados al backend (¡CAMBIO CLAVE!)
   try {
-    const res = await fetch('/api/tests/save-result', {
+    await fetch('/api/tests/save-result', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({
-        testName: 'Memoria', // <-- ¡CAMBIO AQUÍ!
-        score: score,
-        timeTakenMs: totalTimeMs
-      })
+      body: JSON.stringify({ testName: 'Memoria', score, timeTakenMs: totalTimeMs })
     });
-    const data = await res.json();
-    console.log(data.message || data.error);
-    
-  } catch (err) {
-    console.error('Error al guardar el resultado:', err);
-  }
+  } catch (e) {}
 }

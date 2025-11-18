@@ -1,31 +1,41 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-M" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CogniKids - Test de Stroop</title>
-  <link rel="stylesheet" href="css/test-page.css" />
-  <link rel="manifest" href="/manifest.json" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Test de Stroop - CogniKids</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+  <link rel="stylesheet" href="css/test-page.css">
+  <link rel="manifest" href="/manifest.json">
 </head>
 <body>
-  <div class="test-container">
-    <div class="game-screen">
-      <h1>Test de Stroop</h1>
-      <div class="stimulus-area" id="stimulus">
-        <p>Presiona "Iniciar" para comenzar</p>
-      </div>
-      <div class="options-area" id="options">
-        <button class="btn-option" id="btnStart">Iniciar</button>
+
+  <nav class="navbar navbar-dark fixed-top">
+    <div class="container-fluid justify-content-center">
+      <span class="navbar-brand mb-0 h1">Test de Stroop</span>
+    </div>
+  </nav>
+
+  <div class="game-container">
+    <div class="progress mb-4">
+      <div id="progressBar" class="progress-bar bg-success" role="progressbar" style="width: 0%"></div>
+    </div>
+
+    <div class="stimulus-card animate__animated animate__zoomIn">
+      <div id="stimulus" class="stimulus-content">
+        <p class="text-muted fs-4">Presiona Iniciar</p>
       </div>
     </div>
 
-    <div class="results-screen" id="results">
-      <h2>¡Prueba completada!</h2>
-      <p>Tu puntaje: <span id="score">--</span></p>
-      <p>Tiempo total: <span id="time">--</span>s</p>
-      <a href="dashboard.html" class="btn-option">Volver al Dashboard</a>
+    <div class="options-area" id="options">
+      <button id="btnStart" class="btn btn-primary btn-lg w-100" style="grid-column: span 2;">
+        COMENZAR
+      </button>
     </div>
   </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script src="js/stroop.js"></script>
   <script src="js/sw-register.js"></script>
 </body>

@@ -1,5 +1,4 @@
 const form = document.getElementById('loginForm');
-const msg = document.getElementById('msg');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -11,21 +10,41 @@ form.addEventListener('submit', async (e) => {
     const res = await fetch('/api/users/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      credentials: 'include', // accept cookies from server
+      credentials: 'include', 
       body: JSON.stringify({ username, password })
     });
 
     const data = await res.json();
-    msg.textContent = data.message || data.error;
 
     if(res.ok) {
-      // Guardar username para UI; token is set as HttpOnly cookie by server
+      // Guardar username
       localStorage.setItem('username', data.username);
-      // Redirigir a dashboard
-      window.location.href = 'dashboard.html';
+      
+      // Alerta de Éxito con SweetAlert2
+      Swal.fire({
+        icon: 'success',
+        title: '¡Bienvenido!',
+        text: 'Iniciando sesión...',
+        timer: 1500,
+        showConfirmButton: false
+      }).then(() => {
+        window.location.href = 'dashboard.html';
+      });
+      
+    } else {
+      // Alerta de Error
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: data.error || 'Credenciales incorrectas'
+      });
     }
 
   } catch (err) {
-    msg.textContent = 'Error al iniciar sesión';
+    Swal.fire({
+      icon: 'error',
+      title: 'Error de conexión',
+      text: 'No se pudo conectar con el servidor'
+    });
   }
 });

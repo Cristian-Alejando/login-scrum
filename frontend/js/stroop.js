@@ -1,22 +1,16 @@
-// js/stroop.js (VERSIÓN CORREGIDA)
+// js/stroop.js (DISEÑO PRO)
 
-// Referencias a elementos
 const stimulusEl = document.getElementById('stimulus');
 const optionsEl = document.getElementById('options');
 const startBtn = document.getElementById('btnStart');
+const progressBar = document.getElementById('progressBar');
 
-const gameScreen = document.querySelector('.game-screen');
-const resultsScreen = document.getElementById('results');
-const scoreEl = document.getElementById('score');
-const timeEl = document.getElementById('time');
-
-// 1. Definimos 5 preguntas diferentes
 const questions = [
-  { word: 'ROJO', color: 'blue', answer: 'blue' },   // Pregunta 1: Palabra ROJO, color AZUL
-  { word: 'AZUL', color: 'red', answer: 'red' },     // Pregunta 2: Palabra AZUL, color ROJO
-  { word: 'ROJO', color: 'red', answer: 'red' },     // Pregunta 3: Palabra ROJO, color ROJO
-  { word: 'AZUL', color: 'blue', answer: 'blue' },  // Pregunta 4: Palabra AZUL, color AZUL
-  { word: 'ROJO', color: 'blue', answer: 'blue' }    // Pregunta 5: (Repetimos)
+  { word: 'ROJO', color: 'blue', answer: 'blue' },
+  { word: 'AZUL', color: 'red', answer: 'red' },
+  { word: 'VERDE', color: 'orange', answer: 'orange' }, // Añadí variedad
+  { word: 'AMARILLO', color: 'green', answer: 'green' },
+  { word: 'ROJO', color: 'blue', answer: 'blue' }
 ];
 const MAX_ROUNDS = questions.length;
 
@@ -30,72 +24,78 @@ function startTest() {
   score = 0;
   round = 0;
   startTime = Date.now();
-  startBtn.style.display = 'none'; // Ocultar botón
+  // Ocultar botón de inicio y preparar layout de botones
+  optionsEl.innerHTML = ''; 
   nextRound();
 }
 
 function nextRound() {
-  // Si ya pasamos la última ronda, terminar el test
+  // Actualizar Barra de Progreso
+  const progressPercent = (round / MAX_ROUNDS) * 100;
+  progressBar.style.width = `${progressPercent}%`;
+
   if (round >= MAX_ROUNDS) {
     endTest();
     return;
   }
 
-  // 2. Obtenemos la pregunta ACTUAL de la lista
-  const currentQuestion = questions[round];
+  const q = questions[round];
 
-  // --- Lógica del Test de Stroop ---
-  // 3. Mostramos el estímulo y las opciones de la pregunta actual
-  stimulusEl.innerHTML = `<p style="color: ${currentQuestion.color};">${currentQuestion.word}</p>`;
+  // Mostrar estímulo
+  stimulusEl.innerHTML = `<span style="color: ${q.color}; font-size: 5rem; font-weight: 900;">${q.word}</span>`;
+  
+  // Mostrar botones (usando colores de Bootstrap o CSS custom)
+  // Mapeo de colores a nombres en español para los botones
+  const colorMap = { 'red': 'Rojo', 'blue': 'Azul', 'green': 'Verde', 'orange': 'Naranja' };
+
   optionsEl.innerHTML = `
-    <button class="btn-option" data-color="red">Rojo</button>
-    <button class="btn-option" data-color="blue">Azul</button>
+    <button class="btn btn-danger btn-option btn-lg shadow" data-color="red">ROJO</button>
+    <button class="btn btn-primary btn-option btn-lg shadow" data-color="blue">AZUL</button>
+    <button class="btn btn-success btn-option btn-lg shadow" data-color="green">VERDE</button>
+    <button class="btn btn-warning text-white btn-option btn-lg shadow" data-color="orange">NARANJA</button>
   `;
 
-  // 4. Asignamos los listeners para los botones
+  // Ajustar el grid a 2x2
+  optionsEl.style.gridTemplateColumns = "1fr 1fr";
+
   optionsEl.querySelectorAll('.btn-option').forEach(btn => {
     btn.onclick = () => {
-      // 5. Verificamos si la respuesta es correcta
-      if (btn.dataset.color === currentQuestion.answer) {
-        score++;
-      }
-      
-      // 6. AVANZAMOS A LA SIGUIENTE RONDA (¡Este era el error!)
+      if (btn.dataset.color === q.answer) score++;
       round++;
-      
-      // 7. Llamamos a nextRound() para mostrar la siguiente pregunta
       nextRound();
     };
   });
 }
 
 async function endTest() {
-  const endTime = Date.now();
-  const totalTimeMs = endTime - startTime;
-  const totalTimeSec = (totalTimeMs / 1000).toFixed(2);
+  progressBar.style.width = `100%`;
+  const totalTimeMs = Date.now() - startTime;
+  
+  // Alerta bonita con SweetAlert2
+  Swal.fire({
+    title: '¡Prueba Completada!',
+    html: `
+      <div class="text-start">
+        <p><strong>Puntaje:</strong> ${score} / ${MAX_ROUNDS}</p>
+        <p><strong>Tiempo:</strong> ${(totalTimeMs / 1000).toFixed(2)} segundos</p>
+      </div>
+    `,
+    icon: 'success',
+    confirmButtonText: 'Volver al Dashboard',
+    allowOutsideClick: false
+  }).then(() => {
+    window.location.href = 'dashboard.html';
+  });
 
-  // Mostrar resultados en la UI
-  gameScreen.style.display = 'none';
-  resultsScreen.style.display = 'block';
-  scoreEl.textContent = `${score} / ${MAX_ROUNDS}`;
-  timeEl.textContent = totalTimeSec;
-
-  // Enviar resultados al backend (¡Ahora debería funcionar!)
+  // Guardar en segundo plano
   try {
-    const res = await fetch('/api/tests/save-result', {
+    await fetch('/api/tests/save-result', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       credentials: 'include',
-      body: JSON.stringify({
-        testName: 'Stroop',
-        score: score,
-        timeTakenMs: totalTimeMs
-      })
+      body: JSON.stringify({ testName: 'Stroop', score, timeTakenMs: totalTimeMs })
     });
-    const data = await res.json();
-    console.log(data.message || data.error);
-    
   } catch (err) {
-    console.error('Error al guardar el resultado:', err);
+    console.error(err);
   }
 }

@@ -1,5 +1,4 @@
 const form = document.getElementById('regForm');
-const msg = document.getElementById('msg');
 
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
@@ -15,16 +14,33 @@ form.addEventListener('submit', async (e) => {
     });
 
     const data = await res.json();
-    msg.textContent = data.message || data.error;
     
     if(res.ok) {
-      // Redirigir a login después de registrarse
-      setTimeout(() => {
+      // Alerta de Éxito
+      Swal.fire({
+        icon: 'success',
+        title: '¡Cuenta Creada!',
+        text: 'Redirigiendo al inicio de sesión...',
+        timer: 2000,
+        showConfirmButton: false
+      }).then(() => {
         window.location.href = 'login.html';
-      }, 1000);
+      });
+      
+    } else {
+      // Alerta de Error
+      Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: data.error || 'Error al registrar usuario'
+      });
     }
 
   } catch (err) {
-    msg.textContent = 'Error al registrar usuario';
+    Swal.fire({
+      icon: 'error',
+      title: 'Error de conexión',
+      text: 'Intenta nuevamente más tarde'
+    });
   }
 });

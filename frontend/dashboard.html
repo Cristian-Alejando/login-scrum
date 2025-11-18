@@ -3,47 +3,105 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CogniKids - Dashboard</title>
-  <link rel="stylesheet" href="css/dashboard.css?v=2.0" />
-  <link rel="icon" href="../assets/dashboard/user-icon.svg" type="image/svg+xml" />
-  <link rel="manifest" href="/manifest.json" />
-  <meta name="theme-color" content="#764ba2" />
+  <title>Panel de Control - CogniKids</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <link rel="stylesheet" href="css/styles.css"> <link rel="stylesheet" href="css/dashboard.css"> <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#003366" />
 </head>
-<body>
-  <header class="header-dash">
-    <img src="../assets/dashboard/user-icon.svg" alt="Usuario" class="user-icon" />
-    <h1>Bienvenido, <span id="userName">---</span></h1>
-    <button id="logoutBtn" class="btn-logout">Cerrar sesión</button>
-  </header>
+<body class="dashboard-body">
 
-  <main class="main-dash">
-      <h2>Pruebas disponibles</h2>
-
-      <div class="test-cards">
-
-        <div class="card">
-          <img src="../assets/dashboard/icon-stroop.svg" alt="Test de Stroop Icono" />
-          <h3>Test de Stroop</h3>
-          <p>Evalúa la atención y flexibilidad cognitiva.</p>
-          <button class="btn-test" data-test="stroop">Iniciar prueba</button>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold d-flex align-items-center" href="#">
+        <img src="assets/home/logo.svg" alt="Logo" width="30" height="30" class="d-inline-block align-text-top me-2 bg-white rounded-circle p-1">
+        CogniKids
+      </a>
+      
+      <div class="d-flex align-items-center">
+        <div class="text-white me-3 d-none d-md-block">
+          <small>Hola,</small> <span id="userName" class="fw-bold">Usuario</span>
         </div>
-
-        <div class="card">
-          <img src="../assets/dashboard/icon-memory.svg" alt="Test de Memoria Icono" />
-          <h3>Test de Memoria</h3>
-          <p>Evalúa la memoria de trabajo y a corto plazo.</p>
-          <button class="btn-test" data-test="memory">Iniciar prueba</button>
-        </div>
-
-        <div class="card">
-          <img src="../assets/dashboard/icon-perception.svg" alt="Test de Percepción Icono" />
-          <h3>Test de Percepción</h3>
-          <p>Mide la capacidad de percepción visual y espacial.</p>
-          <button class="btn-test" data-test="perception">Iniciar prueba</button>
-        </div>
-
+        <button id="logoutBtn" class="btn btn-outline-light btn-sm">
+          <i class="fas fa-sign-out-alt me-1"></i> Salir
+        </button>
       </div>
-    </main>
+    </div>
+  </nav>
+
+  <div class="container py-5">
+    
+    <div class="row mb-5">
+      <div class="col-lg-8">
+        <div class="card border-0 shadow-sm h-100">
+          <div class="card-body p-4">
+            <h4 class="fw-bold text-primary mb-4"><i class="fas fa-chart-area me-2"></i>Progreso Cognitivo</h4>
+            <canvas id="progressChart" height="120"></canvas>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-4 mt-4 mt-lg-0">
+        <div class="card border-0 shadow-sm bg-primary text-white h-100 welcome-card">
+          <div class="card-body p-4 d-flex flex-column justify-content-center text-center">
+            <div class="mb-3">
+              <i class="fas fa-medal fa-4x text-warning"></i>
+            </div>
+            <h3>¡Sigue así!</h3>
+            <p class="opacity-75">Has completado tus ejercicios diarios. Tu velocidad de reacción ha mejorado un 15%.</p>
+            <button class="btn btn-light text-primary fw-bold mt-3">Ver Reporte Completo</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h4 class="fw-bold text-secondary mb-4">Pruebas Disponibles</h4>
+    <div class="row g-4">
+      
+      <div class="col-md-4">
+        <div class="card test-card border-0 shadow-sm h-100">
+          <div class="card-body text-center p-4">
+            <div class="icon-circle bg-danger-subtle text-danger mb-3 mx-auto">
+              <img src="assets/dashboard/icon-stroop.svg" width="40" alt="Stroop">
+            </div>
+            <h5 class="fw-bold">Test de Stroop</h5>
+            <p class="text-muted small">Evalúa tu atención selectiva y flexibilidad cognitiva.</p>
+            <button class="btn btn-outline-danger w-100 btn-test" data-test="stroop">Iniciar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card test-card border-0 shadow-sm h-100">
+          <div class="card-body text-center p-4">
+            <div class="icon-circle bg-primary-subtle text-primary mb-3 mx-auto">
+              <img src="assets/dashboard/icon-memory.svg" width="40" alt="Memoria">
+            </div>
+            <h5 class="fw-bold">Memoria</h5>
+            <p class="text-muted small">Ejercita tu capacidad de retención a corto plazo.</p>
+            <button class="btn btn-outline-primary w-100 btn-test" data-test="memory">Iniciar</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card test-card border-0 shadow-sm h-100">
+          <div class="card-body text-center p-4">
+            <div class="icon-circle bg-success-subtle text-success mb-3 mx-auto">
+              <img src="assets/dashboard/icon-perception.svg" width="40" alt="Percepción">
+            </div>
+            <h5 class="fw-bold">Percepción</h5>
+            <p class="text-muted small">Mejora tu agudeza visual y reconocimiento de patrones.</p>
+            <button class="btn btn-outline-success w-100 btn-test" data-test="perception">Iniciar</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
 
   <script src="js/dashboard.js"></script>
   <script src="js/sw-register.js"></script>
