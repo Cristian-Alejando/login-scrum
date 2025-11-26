@@ -1,5 +1,5 @@
 require('dotenv').config();
-const mysql = require('mysql2/promise'); // <--- ¡ESTA LÍNEA FALTABA!
+const mysql = require('mysql2/promise'); // <--- ESTA ES LA LÍNEA VITAL
 
 const dbConfig = {
   user: process.env.DB_USER || 'admin',
