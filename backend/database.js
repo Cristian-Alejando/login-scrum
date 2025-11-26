@@ -1,3 +1,6 @@
+require('dotenv').config();
+const mysql = require('mysql2/promise'); // <--- ¡ESTA LÍNEA FALTABA!
+
 const dbConfig = {
   user: process.env.DB_USER || 'admin',
   password: process.env.DB_PASSWORD || '12345',
@@ -13,3 +16,5 @@ if (process.env.DB_HOST && process.env.DB_HOST.startsWith('/cloudsql')) {
 }
 
 const pool = mysql.createPool(dbConfig);
+
+module.exports = { pool };
