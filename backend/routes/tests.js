@@ -23,4 +23,19 @@ router.post('/save-result', auth.verifyToken, async (req, res) => {
   }
 });
 
+// Nueva ruta para obtener estadísticas
+router.get('/stats', auth.verifyToken, async (req, res) => {
+  const userId = req.userId;
+  try {
+    const [rows] = await pool.execute(
+      'SELECT test_name, score, time_taken_ms, created_at FROM test_results WHERE user_id = ? ORDER BY created_at ASC',
+      [userId]
+    );
+    res.json(rows);
+  } catch (err) {
+    console.error('Error al obtener estadísticas:', err);
+    res.status(500).json({ error: 'Error interno del servidor' });
+  }
+});
+
 module.exports = router;
